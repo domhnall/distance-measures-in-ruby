@@ -43,7 +43,7 @@ class Metrics
 
   def self.cosine_similarity(a, b)
     return unless a.any? && (a.size == b.size)
-    return if is_null?(a) || is_null?(b)
+    return if is_zero?(a) || is_zero?(b)
 
     dot_product(a,b) / (mod(a) * mod(b))
   end
@@ -69,8 +69,8 @@ class Metrics
   end
   private_class_method :mod
 
-  def self.is_null?(a)
+  def self.is_zero?(a)
     a.all? {|i| i == 0 }
   end
-  private_class_method :is_null?
+  private_class_method :is_zero?
 end

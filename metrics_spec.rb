@@ -157,17 +157,18 @@ RSpec.describe Metrics do
     describe "when p = 1_000" do
       let(:p) { 1_000 }
       let(:examples) do
-        {
-          [[0, 1, 2], [1, 2, 0]] => 2,
-          [[0,0], [1,0]] => 1,
-          [[-1,0], [1,0]] => 2,
-          [[0,0,0,0], [1,0,1,0]] => 1,
-        }
+        [
+          [[0, 1, 2], [1, 2, 0]],
+          [[0,0], [1,0]],
+          [[-1,0], [1,0]],
+          [[0,0,0,0], [1,0,1,0]],
+        ]
       end
 
       it "should approach the chebyshev distance" do
-        examples.each do |vectors, expected|
-          expect(Metrics.minkowski_distance(vectors[0], vectors[1], p)).to be_within(0.001).of expected
+        examples.each do |vectors|
+          expect(Metrics.minkowski_distance(vectors[0], vectors[1], p))
+            .to be_within(0.001).of Metrics.chebyshev_distance(vectors[0], vectors[1])
         end
       end
     end

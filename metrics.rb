@@ -48,6 +48,13 @@ class Metrics
     dot_product(a,b) / (mod(a) * mod(b))
   end
 
+  def self.cosine_distance(a, b)
+    return unless a.any? && (a.size == b.size)
+    return if is_zero?(a) || is_zero?(b)
+
+    1 - self.cosine_similarity(a, b)
+  end
+
   def self.jaccard_similarity(a, b)
     return unless a.any? && b.any?
 

@@ -224,6 +224,40 @@ RSpec.describe Metrics do
     end
   end
 
+  describe ".cosine_distance" do
+    describe "where either vector is the zero vector" do
+      let(:examples) do
+        [
+          [[0, 0], [1, 0]],
+          [[0, 0, 0], [1, 2, 0]],
+          [[-1, 0], [0, 0]],
+          [[1, 2, 3, 4], [0, 0, 0, 0]],
+        ]
+      end
+
+      it "should return nil if either vector is the zero vector" do
+        examples.each do |vectors|
+          expect(Metrics.cosine_distance(vectors[0], vectors[1])).to be_nil
+        end
+      end
+    end
+
+    let(:examples) do
+      {
+        [[1, 2, -3], [3, 6, -9]] => 0,
+        [[0, 1, 2], [1, 2, 0]] => 0.6,
+        [[-1,0], [1,0]] => 2.0,
+        [[1,0,0,0], [1,0,1,0]] => 1-(1/Math.sqrt(2)),
+      }
+    end
+
+    it "should return the cosine similarity" do
+      examples.each do |vectors, expected|
+        expect(Metrics.cosine_distance(vectors[0], vectors[1])).to be_within(0.01).of expected
+      end
+    end
+  end
+
   describe ".jaccard_similarity" do
     let(:examples) do
       {
